@@ -190,9 +190,9 @@ df['Month']=[months_list[int(dates.split('-')[1])-1] for dates in df['reviewTime
 df['Months']=[dates.split('-')[1] for dates in df['reviewTime']]
 df['Month'] = pd.Categorical(df['Month'], categories=months_list, ordered=True)
 df = df.sort_values(['Year', 'Month'])
+df1=df.to_excel("output1.xlsx", index=False)
 
 print(df['Year'])
-print(df[0:50])
 
 sentiment_counts = df.groupby(['Year', 'Month', 'sentiments']).size().reset_index(name='count')
 print(sentiment_counts)
@@ -205,10 +205,11 @@ total_counts = sentiment_counts.groupby(['Year', 'Month'])['count'].sum().reset_
 # Merge the total counts back into the original dataframe
 df_new = sentiment_counts.merge(total_counts, on=['Year', 'Month'], suffixes=('', '_total'))
 
+df_new1=df_new.to_excel("output.xlsx", index=False)
+
 # Calculate the percentage of each sentiment for each month
 df_new['percentage'] = df_new['count'] / df_new['count_total'] * 100
 
-print(df_new.head(20))
 
 
 from dash.dependencies import Input, Output
@@ -495,4 +496,4 @@ def update_wordcloud(value):
             figure=wordcloud_frequents
         )
 if __name__ == '__main__':
-    app.run_server()
+    app.run_server(debug=True)
