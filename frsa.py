@@ -15,6 +15,8 @@ from nltk.corpus import stopwords
 # For uding dash components- web based dashboard
 from dash import Dash, html, dcc,dash_table
 
+nltk.download('stopwords')
+
 # For plotting graphs
 import matplotlib.pyplot as plt
 import plotly.express as px
